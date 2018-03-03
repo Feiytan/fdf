@@ -1,11 +1,22 @@
 #ifndef TEST_H
 #define TEST_H
 #define RGB 0xFF6633
+#define YMAX 4
+#define XMAX 4
 
 #include <stdio.h>
 #include <stdlib.h>
-#include "/Users/laurick/includes/libft/libft.h"
-#include "/Users/laurick/includes/minilibx_macos/mlx.h"
+#include <unistd.h>
+#include <fcntl.h>
+#include "/Users/lbaumann/includes/libft/libft.h"
+#include "/Users/lbaumann/includes/minilibx_macos/mlx.h"
+
+typedef	struct s_point
+{
+	int x;
+	int y;
+	int z;
+}				t_point;
 
 typedef struct s_win
 {
