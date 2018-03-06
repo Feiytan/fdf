@@ -1,137 +1,69 @@
-#include "fdf.h"
+#include "/Users/laurick/includes/libft/libft.h"
+#include "/Users/laurick/includes/libft/fdf.h"
+#include <math.h>
 
-void		print_hori(t_win *param, int cumul, int i)
+void	print_sys(t_win param)
 {
-	while (i++ <= param->dx)
-	{
-		param->x += param->xinc;
-		cumul += param->dy;
-		if (cumul >= param->dx)
-		{
-			cumul -= param->dx;
-			param->y += param->yinc;
-		}
-		mlx_pixel_put(param->mlx_ptr, param->win_ptr, param->x, param->y, RGB);
-	}
+	param.xi = -(param.wsizex / 2);
+	param.yi = 0;
+	param.xf = param.wsizex / 2;
+	param.yf = 0;
+	get_line(param);
+	param.xi = 0;
+	param.yi = param.wsizey / 2;
+	param.xf = 0;
+	param.yf = -(param.wsizey / 2);
+	get_line(param);
+	param.xi = -param.wsizex / 2;
+	param.yi = 200;
+	param.xf = param.wsizex / 2;
+	param.yf = 200;
+	get_line(param);
 }
 
-void		print_verti(t_win *param, int cumul, int i)
-{
-	while (i++ <= param->dy)
-	{
-		param->y += param->yinc;
-		cumul += param->dx;
-		if (cumul >= param->dy)
-		{
-			cumul -= param->dy;
-			param->x += param->xinc;
-		}
-		mlx_pixel_put(param->mlx_ptr, param->win_ptr, param->x, param->y, RGB);
-	}
-}
-
-void		get_line(t_win *param)
-{
-	param->x = param->xi;
-	param->y = param->yi;
-	param->dx = param->xf - param->xi;
-	param->dy = param->yf - param->yi;
-	param->xinc = (param->dx > 0) ? 1 : -1;
-	param->yinc = ( param->dy > 0 ) ? 1 : -1 ;
-	param->dx = abs(param->dx) ;
-	param->dy = abs(param->dy) ;
-	mlx_pixel_put(param->mlx_ptr, param->win_ptr, param->x, param->y, RGB);
-	if (param->dx >= param->dy)
-		print_hori(param, param->dx / 2, 1);
-	else
-		print_verti(param, param->dy / 2, 1);
-}
-
-void		getmap(char *file, t_point tab[YMAX + 1][XMAX + 1])
-{
-	int fd;
-	char *line;
-	char **dline;
-	int i;
-	int size;
-
-	size = 0;
-	fd = open(file, O_RDONLY);
-	get_next_line(fd, &line);
-	dline = ft_strsplit(line, ' ');
-	printf("%s", *dline);
-	ft_putnbr(size);
-	free(line);
-}
-
-void		getmap2(t_point tab[YMAX + 1][XMAX + 1], int i, int j)
-{
-	int x_start = 650;
-	int y_start = -100;
-	int tempx;
-	while (i < YMAX + 1)
-	{
-		j = 0;
-		while (j < XMAX + 1)
-		{
-			tab[i][j].x = (x_start + 100 * j);
-			tempx = tab[i][j].x;
-			tab[i][j].y = y_start + 100 * i;
-			tab[i][j].x = tempx - tab[i][j].y;
-			tab[i][j].y = (tempx + tab[i][j].y) / 2;
-			if (j == 1)
-				tab[i][j].y += 42;
-		printf("tab[%d][%d], x = %d, y = %d.  ", i, j, tab[i][j].x, tab[i][j].y);
-			j++;
-		}
-		i++;
-	}
-	ft_putchar('\n');
-}
-
-
-
-void		print_map(t_win *param, t_point tab[YMAX + 1][XMAX + 1])
+void	rot(t_win *param)
 {
 	int i;
-	int j;
-
+	double  tab[3] = {param->xi, param->yi, 0};
+	double tab2[3];
+	double mr1[3][3] = {{cos(0.178), -sin(0.178), 0}, {sin(0.178), cos(0.178), 0}, {0, 0, 1}};
 	i = 0;
-	while (i < YMAX + 1)
+	while (i < 3)
 	{
-		j = 0;
-		while (j < XMAX + 1)
-		{
-			if (j != 0)
-			{
-				param->xi = tab[i][j - 1].x;
-				param->yi = tab[i][j - 1].y;
-				param->xf = tab[i][j].x;
-				param->yf = tab[i][j].y;
-				get_line(param);
-			}
-			if (i != 0)
-			{
-				param->xi = tab[i][j].x;
-				param->yi = tab[i][j].y;
-				param->xf = tab[i - 1][j].x;
-				param->yf = tab[i - 1][j].y;
-				get_line(param);
-			}
-			j++;
-		}
+		tab2[i] = tab[0] * mr1[i][0] + tab[1] * mr1[i][1] + tab[2] * mr1[i][2];
 		i++;
 	}
+	param->xi = tab2[0];
+	param->yi = tab2[1];
+}
+
+int		deal_key(int keycode, t_win *param)
+{
+	
+	mlx_clear_window(param->mlx_ptr, param->win_ptr);
+	print_sys(*param);
+	rot(param);
+	get_line(*param);
+	return (0);
 }
 
 int		main(int argc, char **argv)
 {
 	t_win param;
-	t_point tab[YMAX + 1][XMAX + 1];
-	getmap(argv[1], tab);
-//	get_map2(tab, 0, 0);
-//	param.mlx_ptr = mlx_init();
-//	param.win_ptr = mlx_new_window(param.mlx_ptr, 1500, 1000, "window");
-//	print_map(&param, tab);
-//	mlx_loop(param.mlx_ptr);
+
+	if (argc != 5)
+		error("Error : nb arg");
+	param.wsizex = 1000;
+	param.wsizey = 700;
+	param.xi = (double)atoi(argv[1]);
+	param.yi = (double)atoi(argv[2]);
+	param.xf = (double)atoi(argv[3]);
+	param.yf = (double)atoi(argv[4]);
+	param.mlx_ptr = mlx_init();
+	param.win_ptr = mlx_new_window(param.mlx_ptr, param.wsizex, param.wsizey, "win1");
+	mlx_key_hook(param.win_ptr, deal_key, &param);
+	print_sys(param);
+	get_line(param);
+	mlx_loop(param.mlx_ptr);
+	return (0);
 }

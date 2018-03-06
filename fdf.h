@@ -1,15 +1,13 @@
 #ifndef TEST_H
 #define TEST_H
 #define RGB 0xFF6633
-#define YMAX 4
-#define XMAX 4
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
-#include "/Users/lbaumann/includes/libft/libft.h"
-#include "/Users/lbaumann/includes/minilibx_macos/mlx.h"
+#include "/Users/laurick/includes/libft/libft.h"
+#include "/Users/laurick/includes/minilibx_macos/mlx.h"
 
 typedef	struct s_point
 {
@@ -25,21 +23,24 @@ typedef struct s_win
 	void	*img_ptr;
 	int		x;
 	int		y;
-	int		xi;
-	int		yi;
-	int		xf;
-	int		yf;
+	double		xi;
+	double		yi;
+	double		xf;
+	double		yf;
 	int		dx;
 	int		dy;
-	int		xinc;
-	int		yinc;
-	char	*date;
+	int			xinc;
+	int			yinc;
+	int		wsizex;
+	int		wsizey;
+	char	*data;
 	int		bpp;
 	int		sizeline;
 	int		endian;
 	int		color;
-	char	*data;
 }			t_win;
+
+void	get_line(t_win param);
 
 #endif
 
