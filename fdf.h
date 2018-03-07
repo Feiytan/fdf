@@ -6,8 +6,8 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <fcntl.h>
-#include "/Users/laurick/includes/libft/libft.h"
-#include "/Users/laurick/includes/minilibx_macos/mlx.h"
+#include "/Users/lbaumann/includes/libft/libft.h"
+#include "/Users/lbaumann/includes/minilibx_macos/mlx.h"
 
 typedef	struct s_point
 {
@@ -15,6 +15,12 @@ typedef	struct s_point
 	int y;
 	int z;
 }				t_point;
+
+typedef struct s_line
+{
+	char *line;
+	struct s_line *next;
+}				t_line;
 
 typedef struct s_win
 {
