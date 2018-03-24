@@ -10,16 +10,11 @@ void	align_points(t_win *param, int i, int j)
 	{
 		j = 0;
 		while (j < param->xmax)
-			param->tab[i][j++].y -= decaley;
+		{
+			param->tab[i][j].y -= decaley + param->yplace;
+			param->tab[i][j++].x -= decalex + param->xplace;
+		}
 		i++;
-	}
-	i = 0;
-	while(i < param->ymax)
-	{
-		j = 0;
-		while (j < param->xmax)
-			param->tab[i][j++].x -= decalex;
-	i++;
 	}
 }
 
@@ -41,10 +36,6 @@ void	print_sys(t_win param)
 void	get_scaled_points(t_win *param, int i, int j)
 {
 	int temp;
-	if (param->img_sizex / param->xmax > param->img_sizey / param->ymax)
-		param->scale = param->img_sizey / param->ymax  >> 1;
-	else
-		param->scale = param->img_sizex / param->xmax >> 1;
 	while (i < param->ymax)
 	{
 		j = 0;

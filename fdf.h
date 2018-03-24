@@ -63,7 +63,7 @@ void	print_tab(t_win param, int xmax, int ymax);
 void	print_map(t_win *param, int i, int j);
 void	get_scaled_point(t_win *param, int i, int j);
 void	align_points(t_win *param, int i, int j);
-void	zoom(t_win *param, int i, int j);
+void	zoom(t_win *param, int i);
 void	get_scaled_points(t_win *param, int i, int j);
 void	print_data(t_win param);
 #endif

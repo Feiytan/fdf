@@ -4,7 +4,7 @@ void		put_pixel_to_img(t_win param)
 {
 	char *temp = param.data;
 	param.data = param.data + param.y * param.sizeline + param.x * param.bpp;
-	if (param.data > temp && param.data < temp + (param.img_sizey - 1) * param.sizeline + (param.img_sizex - 1) * param.bpp)
+	if ((param.data > temp && param.data < temp + (param.img_sizey - 1) * param.sizeline + (param.img_sizex - 1) * param.bpp) && param.x < param.img_sizex && param.x > 0)
 	{
 		*(int *)param.data = param.color;
 	}

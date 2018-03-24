@@ -23,12 +23,18 @@ int		main(int argc, char **argv)
 	param.wsizey = 600;
 	param.img_sizex = 1000;
 	param.img_sizey = 600;
-	param.xplace = (param.wsizex - param.img_sizex) >> 1;
-	param.yplace = (param.wsizey - param.img_sizey) >> 1;
+//	param.xplace = (param.wsizex - param.img_sizex) >> 1;
+//	param.yplace = (param.wsizey - param.img_sizey) >> 1;
+	param.xplace = 0;
+	param.yplace = 0;
 	get_map(fd, &line, &param);
 //	ft_putnbr(param.xmax);
 //	ft_putchar('\n');
 //	ft_putnbr(param.ymax);
+	if (param.img_sizex / param.xmax > param.img_sizey / param.ymax)
+		param.scale = param.img_sizey / param.ymax  >> 1;
+	else
+		param.scale = param.img_sizex / param.xmax >> 1;
 	param.mlx_ptr = mlx_init();
 	param.win_ptr = mlx_new_window(param.mlx_ptr, param.wsizex, param.wsizey, "1");
 	param.img_ptr = mlx_new_image(param.mlx_ptr, param.img_sizex, param.img_sizey);
@@ -40,7 +46,7 @@ int		main(int argc, char **argv)
 	param.bpp /= 8;
 	print_map(&param, 0, 0);
 //	print_tab(param, param.xmax, param.ymax);
-	mlx_put_image_to_window(param.mlx_ptr, param.win_ptr, param.img_ptr, param.xplace, param.yplace);
+	mlx_put_image_to_window(param.mlx_ptr, param.win_ptr, param.img_ptr, 0, 0);
 	mlx_key_hook(param.win_ptr, deal_key, &param);
 	mlx_loop(param.mlx_ptr);
 }
